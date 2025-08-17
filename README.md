@@ -45,7 +45,5 @@ This project helps candidates stand out by instantly adapting their resume and g
     npm run dev
    ```
 5. Open http://localhost:3000 in your browser.
-   ```bash
-    npm run dev
-   ```
+
    

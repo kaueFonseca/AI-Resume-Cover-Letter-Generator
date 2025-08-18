@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "./ui/Button";
 import { FileText, Palette, LoaderCircle } from "lucide-react";
 import type { GeneratedContent } from "@/app/page";
+import Title from "./ui/Title";
+import { SelectContent, SelectTrigger, SelectValue, SelectUI, SelectItem } from "@/components/ui/Select"
 
 // Define the props interface for type safety
 interface ResumeFormProps {
@@ -46,11 +48,10 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
   };
 
   return (
-    <section className="w-full rounded-2xl bg-card text-card-foreground border">
-      <div className="p-6 border-b">
-        {/* ... header ... */}
+    <section className="w-full rounded-2xl bg-card text-card-foreground shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_20px_rgba(0,0,0,0.08)]">
+      <div className="p-6 pb-0">
+        <Title />
       </div>
-
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Job Description */}
@@ -61,7 +62,7 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
             <textarea
               id="job-description-textarea"
               placeholder="Paste the complete job description here..."
-              className="min-h-[140px] resize-none w-full rounded-lg border ..."
+              className="min-h-[140px] resize-none w-full rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-3"
               required
               value={jobDescription}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setJobDescription(e.target.value)}
@@ -76,7 +77,7 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
             <textarea
               id="current-resume-textarea"
               placeholder="Paste your current resume content here..."
-              className="min-h-[220px] resize-none w-full rounded-lg border ..."
+              className="min-h-[220px] resize-none w-full rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-3"
               required
               value={currentResume}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentResume(e.target.value)}
@@ -90,7 +91,7 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
             </label>
             <select
               id="tone-style-select"
-              className="w-full rounded-lg border ..."
+              className=" text-gray-500 w-[300px] rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-2"
               required
               value={tone}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTone(e.target.value)}
@@ -98,7 +99,6 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
               <option value="professional">Professional</option>
               <option value="friendly">Friendly</option>
               <option value="persuasive">Persuasive</option>
-              <option value="bold">Bold</option>
             </select>
           </div>
 
@@ -112,8 +112,38 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
               'Generate Resume & Cover Letter'
             )}
           </Button>
+          <SelectUI>
+            <SelectTrigger className=" text-gray-500 w-[300px] rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-2">
+              <SelectValue placeholder='Choose the tone for your application materials' />
+            </SelectTrigger>
+            
+            <SelectContent>
 
+              <SelectItem value="professional">
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Professional</span>
+                  <span className="text-xs text-muted-foreground">Formal, corporate-friendly tone</span>
+                </div>
+              </SelectItem>
+
+              <SelectItem value="friendly">
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Friendly</span>
+                  <span className="text-xs text-muted-foreground">Warm, approachable tone</span>
+                </div>
+              </SelectItem>
+
+              <SelectItem value="persuasive">
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Persuasive</span>
+                  <span className="text-xs text-muted-foreground">Confident, compelling tone</span>
+                </div>
+              </SelectItem>
+
+            </SelectContent>
+          </SelectUI>
         </form>
+
       </div>
     </section>
   );

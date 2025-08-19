@@ -1,120 +1,61 @@
-import { useState } from "react";
 import Button from "./ui/Button";
-import { FileText, Palette, LoaderCircle } from "lucide-react";
-import type { GeneratedContent } from "@/app/page";
-import Title from "./ui/Title";
-import { SelectContent, SelectTrigger, SelectValue, SelectUI, SelectItem } from "@/components/ui/Select"
+import { LoaderCircle, Briefcase } from "lucide-react";
+import { ToneSelect } from "@/features/resume/components/ToneSelect";
+import { LabeledTextarea } from "@/features/resume/components/LabeledTextarea";
 
 // Define the props interface for type safety
 interface ResumeFormProps {
-  onGenerationStart: () => void;
-  onGenerationComplete: (content: GeneratedContent) => void;
-  onGenerationError: (error: string) => void;
+  value: { jobDescription: string; currentResume: string; tone: string };
+  onChange: (next: ResumeFormProps['value']) => void;
+  onSubmit: () => void;
   isLoading: boolean;
 }
 
-export default function ResumeForm({ onGenerationStart, onGenerationComplete, onGenerationError, isLoading }: ResumeFormProps) {
-  // Use generics for state types
-  const [jobDescription, setJobDescription] = useState<string>("");
-  const [currentResume, setCurrentResume] = useState<string>("");
-  const [tone, setTone] = useState<string>("professional");
+export default function ResumeForm({ value, onChange, onSubmit, isLoading }: ResumeFormProps) {
+  const { jobDescription, currentResume, tone } = value;
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onGenerationStart();
-
-    try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobDescription, currentResume, tone }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong');
-      }
-
-      onGenerationComplete(data as GeneratedContent);
-    } catch (err: unknown) { // Catch block variable can be of type 'any' or 'unknown'
-      if (err instanceof Error) {
-        onGenerationError(err.message);
-      } else {
-        onGenerationError("An unexpected error occurred");
-      }
-
-    }
+    onSubmit();
   };
 
   return (
     <section className="w-full rounded-2xl bg-card text-card-foreground shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_20px_rgba(0,0,0,0.08)]">
       <div className="p-6 pb-0">
-        <Title />
+        <h1 className='text-black-400 flex flex items-center gap-2 text-lg font-semibold pb-1'>
+          <Briefcase className='w-5 h-5' />
+          Generate Your Tailored Resume & Cover Letter
+        </h1>
+
+        <p className='text-sm text-muted-foreground text-gray-500'>
+          Provide your job details and current resume to get AI-powered, tailored documents.
+        </p>
       </div>
+
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Job Description */}
-          <div className="space-y-3">
-            <label htmlFor="job-description-textarea" className="flex items-center gap-2 font-medium">
-              <FileText className="h-5 w-5" /> Job Description
-            </label>
-            <textarea
-              id="job-description-textarea"
-              placeholder="Paste the complete job description here..."
-              className="min-h-[140px] resize-none w-full rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-3"
-              required
-              value={jobDescription}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setJobDescription(e.target.value)}
-            />
-          </div>
+          <LabeledTextarea
+            id="job-description-textarea"
+            label="Job Description"
+            placeholder="Paste the complete job description here..."
+            value={jobDescription}
+            onChange={(v) => onChange({ ...value, jobDescription: v })}
+            minHeight={140}
+          />
 
           {/* Current Resume */}
-          <div className="space-y-3">
-            <label htmlFor="current-resume-textarea" className="flex items-center gap-2 font-medium">
-              <FileText className="h-5 w-5" /> Your Current Resume
-            </label>
-            <textarea
-              id="current-resume-textarea"
-              placeholder="Paste your current resume content here..."
-              className="min-h-[220px] resize-none w-full rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-3"
-              required
-              value={currentResume}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentResume(e.target.value)}
-            />
-          </div>
+          <LabeledTextarea
+            id="current-resume-textarea"
+            label="Your Current Resume"
+            placeholder="Paste your current resume content here..."
+            value={currentResume}
+            onChange={(v) => onChange({ ...value, currentResume: v })}
+            minHeight={220}
+          />
 
           {/* Tone & Style */}
-          <SelectUI>
-            <SelectTrigger className="text-gray-500 w-[300px] rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-2">
-              <SelectValue placeholder='Choose the tone for your application materials' />
-            </SelectTrigger>
-
-            <SelectContent>
-
-              <SelectItem value="professional">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Professional</span>
-                  <span className="text-gray-500 text-xs text-muted-foreground">Formal, corporate-friendly tone</span>
-                </div>
-              </SelectItem>
-
-              <SelectItem value="friendly">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Friendly</span>
-                  <span className="text-gray-500 text-xs text-muted-foreground">Warm, approachable tone</span>
-                </div>
-              </SelectItem>
-
-              <SelectItem value="persuasive">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Persuasive</span>
-                  <span className="text-gray-500 text-xs text-muted-foreground">Confident, compelling tone</span>
-                </div>
-              </SelectItem>
-
-            </SelectContent>
-          </SelectUI>
+          <ToneSelect value={tone} onChange={(v) => onChange({ ...value, tone: v })} />
 
           <Button type="submit" disabled={isLoading}>
             {isLoading ? (
@@ -128,7 +69,6 @@ export default function ResumeForm({ onGenerationStart, onGenerationComplete, on
           </Button>
 
         </form>
-
       </div>
     </section>
   );

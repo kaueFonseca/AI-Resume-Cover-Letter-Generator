@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import './globals.css'
 import '../style/globals.css'
+import { Toaster } from "sonner";
 
 const interFont = Inter({
   variable: "--inter",
@@ -24,6 +25,7 @@ export default function RootLayout({
         className={`${interFont.variable} antialiased bg-white`}
       >
         {children}
+        <Toaster richColors position="bottom-right" />
       </body>
     </html>
   );

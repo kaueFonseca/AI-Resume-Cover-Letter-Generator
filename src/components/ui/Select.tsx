@@ -10,11 +10,11 @@ export function SelectTrigger({ children, ...props }: React.ComponentProps<typeo
   return (
     <Select.Trigger
       {...props}
-      className="data-[placeholder]:text-gray-500 flex min-w-[8rem] items-center justify-between gap-2 rounded-md shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
+      className="select-trigger data-[placeholder]:text-gray-500 flex min-w-[8rem] items-center justify-between gap-2 rounded-md shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
     >
       {children}
       <Select.Icon asChild>
-        <ChevronDownIcon className="size-4 opacity-50" />
+        <ChevronDownIcon data-chev className="size-4 opacity-50" />
       </Select.Icon>
     </Select.Trigger>
   )
@@ -29,7 +29,7 @@ export function SelectContent({ children, ...props }: React.ComponentProps<typeo
     <Select.Portal>
       <Select.Content
         {...props}
-        className="bg-white text-black relative z-50 min-w-[8rem] rounded-md border shadow-md translate-y-1"
+        className="select-content bg-white text-black relative z-50 min-w-[8rem] rounded-md border shadow-md"
         >
         <Select.Viewport className="p-1 max-h-64">
           {children}

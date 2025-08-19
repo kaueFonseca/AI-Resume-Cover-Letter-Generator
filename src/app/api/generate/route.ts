@@ -97,6 +97,10 @@ export async function POST(request: NextRequest) {
       <INSTRUCTIONS>
       Follow these steps precisely:
 
+      **Primary Directive: Language**
+      First, detect the primary language used in the <JOB_DESCRIPTION> and <CURRENT_RESUME>. The entire final output (both the "resume" and "coverLetter" JSON values) MUST be written in that same detected language. For example, if the inputs are in Brazilian Portuguese, the output must also be in Brazilian Portuguese. All instructions below should be executed in the context of this detected language.
+
+
       **Part 1: Analysis & Keyword Extraction**
       1.  Deeply analyze the <JOB_DESCRIPTION> to identify the top 5-7 core requirements, skills (hard and soft), and keywords. Note the company's values or mission if mentioned.
       2.  Review the <CURRENT_RESUME> to understand the candidate's experience, skills, and past achievements.

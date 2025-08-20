@@ -123,6 +123,191 @@
   }
 }
 
+/* ==========================
+   Print styles for PDF export
+   ========================== */
+/**
+ * Professional Print-Friendly Stylesheet
+ * -------------------------------------
+ * This stylesheet aims to create a clean, professional, and beautiful
+ * document when a user prints a page from your web app.
+ */
+
+ @media print {
+
+  /* --- 1. SET UP VARIABLES & BASIC DEFAULTS --- */
+
+  :root {
+    --font-family-serif: "Georgia", "Times New Roman", serif;
+    --font-family-sans: "Helvetica Neue", "Arial", sans-serif;
+    --brand-color: #4A90E2; /* A professional blue. Change to your brand color. */
+    --text-color: #111;
+    --gray-color: #777;
+    --border-color: #ddd;
+  }
+
+  /* Force a white background and dark text for all elements */
+  * {
+    background: transparent !important;
+    color: var(--text-color) !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Set the base font for the document for better readability */
+  body {
+    font-family: var(--font-family-serif);
+    font-size: 12pt; /* Points are a standard unit for print */
+    line-height: 1.5;
+  }
+
+
+  /* --- 2. PAGE SETUP & CUSTOM HEADERS/FOOTERS --- */
+
+  @page {
+    /* Standard A4 size */
+    size: A4;
+
+    /* Generous margins (Top, Right, Bottom, Left) */
+    margin: 20mm 15mm 25mm 15mm;
+
+    /* Custom Header: Document Title */
+    @top-center {
+      content: ' ';
+      font-family: var(--font-family-sans);
+      font-size: 10pt;
+      color: var(--gray-color);
+      font-style: italic;
+    }
+
+    /* Custom Footer: Page Numbers */
+    @bottom-right {
+      content: " ";
+      font-family: var(--font-family-sans);
+      font-size: 10pt;
+      color: var(--gray-color);
+    }
+  }
+
+
+  /* --- 3. PAGE BREAK & LAYOUT CONTROL --- */
+
+  /* Hide elements not intended for print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Each primary print area should ideally start on a new page */
+  .print-area {
+    page-break-before: always;
+  }
+  /* The very first print area shouldn't have a blank page before it */
+  .print-area:first-of-type {
+    page-break-before: auto;
+  }
+
+  /* Avoid breaking elements inside them if possible */
+  h1, h2, h3, h4, h5, h6, blockquote, pre, img, table, ul, ol {
+    page-break-inside: avoid;
+  }
+
+  /* Keep headings with the paragraph that follows them */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  /* Utility class to force a page break */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+
+  /* --- 4. TYPOGRAPHY & ELEMENT STYLING --- */
+
+  /* Headings with clear hierarchy */
+  h1 {
+    font-size: 24pt;
+    color: var(--brand-color) !important;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8pt;
+    margin-bottom: 16pt;
+    font-family: var(--font-family-sans);
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 18pt;
+    margin-top: 24pt;
+    margin-bottom: 12pt;
+    font-family: var(--font-family-sans);
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: 14pt;
+    margin-top: 20pt;
+    margin-bottom: 8pt;
+    font-family: var(--font-family-sans);
+    color: var(--brand-color) !important;
+    font-weight: bold;
+  }
+
+  /* Make links visible and show the URL */
+  a {
+    color: var(--brand-color) !important;
+    text-decoration: underline;
+  }
+
+  /* Show the full URL after the link text, except for internal links */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: var(--gray-color) !important;
+    font-style: italic;
+  }
+
+  /* Images and SVGs should scale nicely */
+  img, svg {
+    max-width: 100% !important;
+    height: auto;
+  }
+
+  /* Table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16pt;
+  }
+
+  th, td {
+    border: 1px solid var(--border-color);
+    padding: 8pt;
+    text-align: left;
+  }
+
+  thead {
+    display: table-header-group; /* This repeats the header on each new page for long tables! */
+  }
+
+  th {
+    font-weight: bold;
+    background-color: #f2f2f2 !important; /* A light gray background for headers */
+  }
+
+  /* Code blocks and blockquotes */
+  pre, blockquote {
+    border: 1px solid var(--border-color);
+    background-color: #fafafa !important;
+    padding: 12pt;
+    font-family: "Courier New", monospace;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--brand-color);
+    font-style: italic;
+  }
+}
+
 /* Radix Select smooth animations */
 @keyframes select-in {
   from { opacity: 0; transform: translateY(-8px) scale(0.96); }

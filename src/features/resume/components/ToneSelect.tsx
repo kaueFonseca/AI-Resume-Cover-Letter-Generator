@@ -9,7 +9,7 @@ interface ToneSelectProps {
 
 export function ToneSelect({ value, onChange, id }: ToneSelectProps) {
   return (
-    <SelectUI value={value || undefined} onValueChange={onChange}>
+    <SelectUI required value={value || undefined} onValueChange={onChange}>
       <SelectTrigger id={id} className="text-gray-500 w-[300px] rounded-lg shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_0_5px_rgba(0,0,0,0.08)] p-2">
         <SelectValue placeholder='Choose the tone for your application materials' />
       </SelectTrigger>

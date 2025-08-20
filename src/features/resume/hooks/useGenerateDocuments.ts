@@ -11,13 +11,13 @@ interface Payload {
 
 export function useGenerateDocuments() {
   const generate = useCallback(async (payload: Payload): Promise<GeneratedContent> => {
-    toast.info('Gerando documentos...');
+    toast.info('Generating Document...');
     try {
       const result = await generateDocuments(payload);
-      toast.success('Documentos gerados com sucesso!');
+      toast.success('Documents generated successfully!');
       return result;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Erro inesperado';
+      const message = e instanceof Error ? e.message : 'Unexpected Error';
       toast.error(message);
       throw e;
     }

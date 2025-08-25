@@ -2,6 +2,7 @@ import Button from "./ui/Button";
 import { LoaderCircle, Briefcase } from "lucide-react";
 import { ToneSelect } from "@/features/resume/components/ToneSelect";
 import { LabeledTextarea } from "@/features/resume/components/LabeledTextarea";
+import React from "react";
 
 // Define the props interface for type safety
 interface ResumeFormProps {
@@ -17,6 +18,18 @@ export default function ResumeForm({ value, onChange, onSubmit, isLoading }: Res
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();
+  };
+
+  const handlePdfToText = async (file: File) => {
+    const form = new FormData();
+    form.append('file', file);
+    const res = await fetch('/api/pdf-extract', { method: 'POST', body: form });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text || 'Falha ao extrair texto do PDF');
+    }
+    const data = await res.json();
+    return (data?.text ?? '') as string;
   };
 
   return (

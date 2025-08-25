@@ -22,6 +22,10 @@ This project helps candidates stand out by instantly adapting their resume and g
 
 ---
 
+
+https://github.com/user-attachments/assets/f2f3bae9-8003-4e31-8674-4e69ecfe8f98
+
+
 ## 📦 Installation & Setup  
 
 1. Clone the repo  

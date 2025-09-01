@@ -13,7 +13,6 @@ This project helps candidates stand out by instantly adapting their resume and g
 - 🔒 **Clipboard Copy** – One-click copy for resume and cover letter.  
 
 ---  
----
 
 ## 🛠️ Tech Stack  
 - **Frontend:** Next.js, React, TailwindCSS  
@@ -22,6 +21,10 @@ This project helps candidates stand out by instantly adapting their resume and g
 - **Icons:** Lucide-react  
 
 ---
+
+
+https://github.com/user-attachments/assets/f2f3bae9-8003-4e31-8674-4e69ecfe8f98
+
 
 ## 📦 Installation & Setup  
 

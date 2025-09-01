@@ -1,28 +1,24 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 
-// Define the expected shape of the data coming from the frontend
 interface RequestBody {
   jobDescription: string;
   currentResume: string;
   tone: string;
 }
 
-// Define the shape of a successful response
 interface SuccessResponse {
   resume: string;
   coverLetter: string;
 }
 
 // Initialize the Gemini AI model
-// It's safe to use a non-null assertion (!) here because we expect this to be set in our environment.
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // Helper function to extract JSON from text
 function extractJsonFromText(text: string): SuccessResponse | null {
   try {
-    // First, try to parse the entire text as JSON
     return JSON.parse(text);
   } catch (error) {
     console.log(
@@ -30,7 +26,6 @@ function extractJsonFromText(text: string): SuccessResponse | null {
       error
     );
 
-    // Try to find JSON object in the text
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       try {
@@ -40,7 +35,6 @@ function extractJsonFromText(text: string): SuccessResponse | null {
       }
     }
 
-    // If no JSON found, return null
     return null;
   }
 }
@@ -49,7 +43,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    // Type assertion for the request body
     const { jobDescription, currentResume, tone } = body as RequestBody;
 
     if (!jobDescription || !currentResume || !tone) {
